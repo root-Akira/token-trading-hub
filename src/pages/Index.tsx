@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Search, Filter, TrendingUp, Users, Image, Tag } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -6,6 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Link } from "react-router-dom";
 
 const Index = () => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -98,13 +98,13 @@ const Index = () => {
         <div className="container mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-4">
-              <h1 className="text-2xl font-bold bg-gradient-to-r from-purple-400 to-pink-600 bg-clip-text text-transparent">
+              <Link to="/" className="text-2xl font-bold bg-gradient-to-r from-purple-400 to-pink-600 bg-clip-text text-transparent">
                 NFTopia
-              </h1>
+              </Link>
               <nav className="hidden md:flex space-x-6">
-                <a href="#" className="text-gray-300 hover:text-white transition-colors">Explore</a>
-                <a href="#" className="text-gray-300 hover:text-white transition-colors">Collections</a>
-                <a href="#" className="text-gray-300 hover:text-white transition-colors">Creators</a>
+                <Link to="/explore" className="text-gray-300 hover:text-white transition-colors">Explore</Link>
+                <Link to="/collections" className="text-gray-300 hover:text-white transition-colors">Collections</Link>
+                <Link to="/creators" className="text-gray-300 hover:text-white transition-colors">Creators</Link>
                 <a href="#" className="text-gray-300 hover:text-white transition-colors">Stats</a>
               </nav>
             </div>
@@ -112,10 +112,12 @@ const Index = () => {
               <Button variant="outline" className="border-purple-500 text-purple-400 hover:bg-purple-500 hover:text-white">
                 Connect Wallet
               </Button>
-              <Avatar>
-                <AvatarImage src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=40&h=40&fit=crop" />
-                <AvatarFallback>U</AvatarFallback>
-              </Avatar>
+              <Link to="/profile">
+                <Avatar>
+                  <AvatarImage src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=40&h=40&fit=crop" />
+                  <AvatarFallback>U</AvatarFallback>
+                </Avatar>
+              </Link>
             </div>
           </div>
         </div>
@@ -211,42 +213,82 @@ const Index = () => {
             {featuredNFTs.map((nft) => (
               <Card key={nft.id} className="bg-black/40 border-gray-700 hover:border-purple-500 transition-all duration-300 hover:scale-105 cursor-pointer group">
                 <CardContent className="p-0">
-                  <div className="relative overflow-hidden rounded-t-lg">
-                    <img
-                      src={nft.image}
-                      alt={nft.title}
-                      className="w-full h-64 object-cover group-hover:scale-110 transition-transform duration-500"
-                    />
-                    <div className="absolute top-4 right-4">
-                      <Badge className="bg-black/70 text-white">
-                        ❤️ {nft.likes}
-                      </Badge>
+                  <Link to={`/nft/${nft.id}`}>
+                    <div className="relative overflow-hidden rounded-t-lg">
+                      <img
+                        src={nft.image}
+                        alt={nft.title}
+                        className="w-full h-64 object-cover group-hover:scale-110 transition-transform duration-500"
+                      />
+                      <div className="absolute top-4 right-4">
+                        <Badge className="bg-black/70 text-white">
+                          ❤️ {nft.likes}
+                        </Badge>
+                      </div>
                     </div>
-                  </div>
-                  <div className="p-6">
-                    <div className="flex items-start justify-between mb-4">
-                      <div>
-                        <h4 className="text-xl font-semibold text-white mb-2">{nft.title}</h4>
-                        <div className="flex items-center space-x-2">
-                          <span className="text-gray-400">by</span>
-                          <span className="text-purple-400">{nft.creator}</span>
-                          {nft.verified && <span className="text-blue-400">✓</span>}
+                    <div className="p-6">
+                      <div className="flex items-start justify-between mb-4">
+                        <div>
+                          <h4 className="text-xl font-semibold text-white mb-2">{nft.title}</h4>
+                          <div className="flex items-center space-x-2">
+                            <span className="text-gray-400">by</span>
+                            <span className="text-purple-400">{nft.creator}</span>
+                            {nft.verified && <span className="text-blue-400">✓</span>}
+                          </div>
                         </div>
                       </div>
-                    </div>
-                    <div className="flex items-center justify-between">
-                      <div>
-                        <p className="text-gray-400 text-sm">Current Price</p>
-                        <p className="text-2xl font-bold text-white">{nft.price}</p>
+                      <div className="flex items-center justify-between">
+                        <div>
+                          <p className="text-gray-400 text-sm">Current Price</p>
+                          <p className="text-2xl font-bold text-white">{nft.price}</p>
+                        </div>
+                        <Button className="bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600">
+                          Buy Now
+                        </Button>
                       </div>
-                      <Button className="bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600">
-                        Buy Now
-                      </Button>
                     </div>
-                  </div>
+                  </Link>
                 </CardContent>
               </Card>
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Quick Actions */}
+      <section className="py-16 px-4">
+        <div className="container mx-auto text-center">
+          <h3 className="text-3xl font-bold text-white mb-12">Explore NFTopia</h3>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <Link to="/explore">
+              <Card className="bg-black/40 border-gray-700 hover:border-purple-500 transition-all duration-300 cursor-pointer group">
+                <CardContent className="p-8 text-center">
+                  <Search className="mx-auto mb-4 text-purple-400 group-hover:scale-110 transition-transform" size={48} />
+                  <h4 className="text-xl font-semibold text-white mb-2">Explore NFTs</h4>
+                  <p className="text-gray-400">Discover amazing digital art and collectibles</p>
+                </CardContent>
+              </Card>
+            </Link>
+            
+            <Link to="/collections">
+              <Card className="bg-black/40 border-gray-700 hover:border-purple-500 transition-all duration-300 cursor-pointer group">
+                <CardContent className="p-8 text-center">
+                  <Image className="mx-auto mb-4 text-blue-400 group-hover:scale-110 transition-transform" size={48} />
+                  <h4 className="text-xl font-semibold text-white mb-2">View Collections</h4>
+                  <p className="text-gray-400">Browse curated collections from top artists</p>
+                </CardContent>
+              </Card>
+            </Link>
+            
+            <Link to="/creators">
+              <Card className="bg-black/40 border-gray-700 hover:border-purple-500 transition-all duration-300 cursor-pointer group">
+                <CardContent className="p-8 text-center">
+                  <Users className="mx-auto mb-4 text-pink-400 group-hover:scale-110 transition-transform" size={48} />
+                  <h4 className="text-xl font-semibold text-white mb-2">Meet Creators</h4>
+                  <p className="text-gray-400">Connect with talented digital artists</p>
+                </CardContent>
+              </Card>
+            </Link>
           </div>
         </div>
       </section>
